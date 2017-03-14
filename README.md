@@ -52,7 +52,7 @@ let itemBlueprint = `
         <label for="phone-field">Field</label>
         <input class="phone-field" name="phone-field" id="phone-field" type="tel">
     </div>
-`);
+`;
 
 let instance = formFieldAppender(element, {
     blueprint: itemBlueprint
