@@ -63,7 +63,7 @@ let instance = formFieldAppender(element, {
 
 ### blueprint
 Type: `HTMLElement` or `string`  
-An HTML element or string representation of an HTML element that will be used as the blueprint for the repeating field.
+An HTML element or string representation of an HTML element that will be used as the blueprint for the repeating field.  
 Default: null
 
 ### itemClass
