@@ -102,8 +102,10 @@ let formFieldAppender = function(wrapperEl, options) {
 				if (!itemAttrVal) {
 					itemAttrVal = defaultPatterns[attr];
 				}
-				itemAttrVal = itemAttrVal;
-				el.setAttribute(attr, itemAttrVal.replace('[[index]]', itemIndex + '-' + elIndex));
+				itemAttrVal = itemAttrVal.replace('[[index]]', itemIndex + '-' + elIndex);
+				itemAttrVal = itemAttrVal.replace('[[itemIndex]]', itemIndex);
+				itemAttrVal = itemAttrVal.replace('[[itemElIndex]]', elIndex);
+				el.setAttribute(attr, itemAttrVal);
 			}
 		});
 	}

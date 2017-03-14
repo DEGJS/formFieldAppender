@@ -83,17 +83,17 @@ Default: `.js-ffa-remove-trigger`
 
 ### idPatternAttr
 Type: `string`  
-The attribute that contains the pattern that will be used to create each appended item's ID. A token of `[[index]]` in the pattern will be dynamically replaced by the item's current index.  
+The attribute that contains the pattern that will be used to create each appended item's ID. A token of `[[itemIndex]]` in the pattern will be dynamically replaced by the item's current index, a token of `[[itemElIndex]]` will be replaced by the index of the element within the item, and a token of `[[index]]` will be replaced by a hyphenated combination of item and element index (i.e., `ffa-id-3-2` for the third element inside the fourth item).  
 Default: `data-ffa-id-pattern`
 
 ### namePatternAttr
 Type: `string`  
-The attribute that contains the pattern that will be used to create each appended item's `name` attribute. A token of `[[index]]` in the pattern will be dynamically replaced by the item's current index.  
+The attribute that contains the pattern that will be used to create each appended item's `name` attribute. See `idPatternAttr` description for available token values.
 Default: `data-ffa-name-pattern`
 
 ### forPatternAttr
 Type: `string`  
-The attribute that contains the pattern that will be used to create each appended item's `for` attribute. A token of `[[index]]` in the pattern will be dynamically replaced by the item's current index.  
+The attribute that contains the pattern that will be used to create each appended item's `for` attribute. See `idPatternAttr` description for available token values.  
 Default: `data-ffa-for-pattern`
 
 ### disabledClass
