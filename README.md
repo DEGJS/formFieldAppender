@@ -73,62 +73,62 @@ Default: `js-ffa-item`
 
 ### addTriggerSelector
 Type: `string`  
-The selector for each item's add trigger. 
+The selector for each item's add trigger.  
 Default: `.js-ffa-add-trigger`
 
 ### removeTriggerSelector
 Type: `string`  
-The selector for each item's remove trigger. 
+The selector for each item's remove trigger.  
 Default: `.js-ffa-remove-trigger`
 
 ### idPatternAttr
 Type: `string`  
-The attribute that contains the pattern that will be used to create each appended item's ID. A token of `[[index]]` in the pattern will be dynamically replaced by the item's current index. 
+The attribute that contains the pattern that will be used to create each appended item's ID. A token of `[[index]]` in the pattern will be dynamically replaced by the item's current index.  
 Default: `data-ffa-id-pattern`
 
 ### namePatternAttr
 Type: `string`  
-The attribute that contains the pattern that will be used to create each appended item's `name` attribute. A token of `[[index]]` in the pattern will be dynamically replaced by the item's current index. 
+The attribute that contains the pattern that will be used to create each appended item's `name` attribute. A token of `[[index]]` in the pattern will be dynamically replaced by the item's current index.  
 Default: `data-ffa-name-pattern`
 
 ### forPatternAttr
 Type: `string`  
-The attribute that contains the pattern that will be used to create each appended item's `for` attribute. A token of `[[index]]` in the pattern will be dynamically replaced by the item's current index. 
+The attribute that contains the pattern that will be used to create each appended item's `for` attribute. A token of `[[index]]` in the pattern will be dynamically replaced by the item's current index.  
 Default: `data-ffa-for-pattern`
 
 ### disabledClass
 Type: `string`  
-The class applied to an item when it's hidden/disabled. This class can be used to visibly hide disabled items with CSS. 
+The class applied to an item when it's hidden/disabled. This class can be used to visibly hide disabled items with CSS.  
 Default: `is-disabled`
 
 ### initialReindex
 Type: `number`  
-The first index value applied to added items. 
+The first index value applied to added items.  
 Default: `1`
 
 ### firstItemIsRemovable
 Type: `boolean`  
-Determines whether the first item can be removed. 
+Determines whether the first item can be removed.  
 Default: `true`
 
 ### onlyLastItemIsRemovable
 Type: `boolean`  
-Determines whether a "remove" trigger is added to all items, or only the last item. 
+Determines whether a "remove" trigger is added to all items, or only the last item.  
 Default: `false`
 
 ### onItemAddCallback
-Type: `function` or `null` 
-An optional callback that's fired whenever an item is added. 
+Type: `function` or `null`  
+An optional callback that's fired whenever an item is added.  
 Default: `null`
 
 ### onItemRemoveCallback
-Type: `function` or `null` 
-An optional callback that's fired whenever an item is removed. 
+Type: `function` or `null`  
+An optional callback that's fired whenever an item is removed.  
 Default: `null`
 
 ### resetNewItemFormVals
-Type: `boolean` 
-Determines whether the fields in added items contain the values of the original item/template. 
+Type: `boolean`  
+Determines whether the fields in added items contain the values of the original item/template.  
 Default: `true`
 
 

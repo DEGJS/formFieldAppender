@@ -11,7 +11,7 @@ let formFieldAppender = function(wrapperEl, options) {
 		defaultPatterns = {
 			id: 'ffa-id-[[index]]',
 			name: 'ffa-name-[[index]]',
-			for: 'ffa-for-[[index]]'
+			for: 'ffa-name-[[index]]'
 		};
 
 	let settings,
@@ -71,28 +71,42 @@ let formFieldAppender = function(wrapperEl, options) {
 	};
 
 	function reindexItems() {
+		let attrs = Object.keys(defaultPatterns);
 		for (var itemIndex = settings.initialReindex; itemIndex <= itemEls.length; itemIndex++) {
 			let itemEl = itemEls[itemIndex];
 			if (itemEl) {
-				let attrs = Object.keys(defaultPatterns),
-					matchingEls = Array.from(itemEl.querySelectorAll('[' + attrs.join('], [') + ']'));
+				let matchingEls = Array.from(itemEl.querySelectorAll('[' + attrs.join('], [') + ']')).filter(function(el) {
+					return el.nodeName !== 'LABEL';
+				});
 
 				matchingEls.forEach(function(el, elIndex) {
-					attrs.forEach(function(attr) {
-						if (el.hasAttribute(attr)) {
-							let itemAttrVal = el.getAttribute(settings[attr + 'PatternAttr']);
-							if (!itemAttrVal) {
-								itemAttrVal = defaultPatterns[attr];
-							}
-							itemAttrVal = itemAttrVal;
-							el.setAttribute(attr, itemAttrVal.replace('[[index]]', itemIndex));
+					let matchingElArr = [el];
+					if (el.nodeName === 'INPUT') {
+						let correspondingLabelEl = itemEl.querySelector('label[for="' + el.getAttribute('name') + '"]');
+						if (correspondingLabelEl) {
+							matchingElArr.push (correspondingLabelEl);
 						}
+					};
+					matchingElArr.forEach(function(matchingElItem) {
+						setElAttributes(matchingElItem, itemIndex, elIndex, attrs);
 					});
 				});
 			}
-			
 		}
 	};
+
+	function setElAttributes(el, itemIndex, elIndex, attrs) {
+		attrs.forEach(function(attr) {
+			if (el.hasAttribute(attr)) {
+				let itemAttrVal = el.getAttribute(settings[attr + 'PatternAttr']);
+				if (!itemAttrVal) {
+					itemAttrVal = defaultPatterns[attr];
+				}
+				itemAttrVal = itemAttrVal;
+				el.setAttribute(attr, itemAttrVal.replace('[[index]]', itemIndex + '-' + elIndex));
+			}
+		});
+	}
 
 	function disableFirstItemRemoveTrigger() {
 		if (!settings.firstItemIsRemovable) {
