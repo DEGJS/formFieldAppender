@@ -68,7 +68,7 @@ Default: null
 
 ### itemClass
 Type: `string`  
-The class applied to each appended item. 
+The class applied to each appended item.  
 Default: `js-ffa-item`
 
 ### addTriggerSelector
