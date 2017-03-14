@@ -1,0 +1,29 @@
+{
+    "name": "formFieldAppender",
+    "version": "1.0.0",
+    "description": "A module for adding and saving an infinite number of form fields.",
+    "keywords": [
+    	"form",
+    	"field",
+        "DEGJS"
+    ],
+    "author": {
+        "name": "Aaron Ladage",
+        "email": "aladage@degdigital.com",
+        "url": "http://aaronladage.com"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DEGJS/formFieldAppender.git"
+    },
+    "bugs": "https://github.com/DEGJS/formFieldAppender/issues",
+    "jspm": {
+        "registry": "jspm",
+        "format": "es6",
+        "main": "formFieldAppender.js",
+        "directories": {
+            "lib": "src"
+        }
+    }
+}
