@@ -52,7 +52,7 @@ let itemBlueprint = `
         <label for="phone-field">Field</label>
         <input class="phone-field" name="phone-field" id="phone-field" type="tel">
     </div>
-`);
+`;
 
 let instance = formFieldAppender(element, {
     blueprint: itemBlueprint
@@ -63,12 +63,12 @@ let instance = formFieldAppender(element, {
 
 ### blueprint
 Type: `HTMLElement` or `string`  
-An HTML element or string representation of an HTML element that will be used as the blueprint for the repeating field. 
+An HTML element or string representation of an HTML element that will be used as the blueprint for the repeating field.  
 Default: null
 
 ### itemClass
 Type: `string`  
-The class applied to each appended item. 
+The class applied to each appended item.  
 Default: `js-ffa-item`
 
 ### addTriggerSelector
