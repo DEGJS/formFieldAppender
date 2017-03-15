@@ -67,7 +67,7 @@ let formFieldAppender = function(wrapperEl, options) {
 		} else {
 			wrapperEl.insertAdjacentHTML('afterbegin', settings.blueprint);
 		}
-		settings.blueprint.classList.add(settings.itemClass);
+		wrapperEl.children[0].classList.add(settings.itemClass);
 	};
 
 	function reindexItems() {

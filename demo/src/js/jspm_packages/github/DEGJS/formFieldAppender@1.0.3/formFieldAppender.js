@@ -154,7 +154,7 @@ let formFieldAppender = function(wrapperEl, options) {
 		itemEls.push(newItem);
 		reindexItems();
 		if (settings.onItemAddCallback !== null) {
-			settings.onItemAddCallback(newItem);
+			settings.onItemAddCallback(newItem, itemEls);
 		}
 	};
 
@@ -169,7 +169,7 @@ let formFieldAppender = function(wrapperEl, options) {
 		}
 		reindexItems();
 		if (settings.onItemRemoveCallback !== null) {
-			settings.onItemRemoveCallback(itemEl);
+			settings.onItemRemoveCallback(itemEl, itemEls);
 		}
 	};
 

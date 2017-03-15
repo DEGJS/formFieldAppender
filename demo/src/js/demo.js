@@ -15,6 +15,18 @@ let demo = function() {
 				onItemAddCallback: addCallback,
 				onItemRemoveCallback: removeCallback
 			}
+		},
+		{
+			elementSelector: '.js-example-3',
+			options: {
+				blueprint: buildElementBlueprint()
+			}
+		},
+		{
+			elementSelector: '.js-example-4',
+			options: {
+				blueprint: buildStringTemplate()
+			}
 		}
 	];
 
@@ -39,6 +51,33 @@ let demo = function() {
 		console.log(removedItem);
 		console.log(allItems);
 	};
+
+	function buildElementBlueprint() {
+		let el = document.createElement('div');
+		el.classList.add('js-ffa-item');
+		el.insertAdjacentHTML('afterbegin', `
+			<div class="field">
+				<label for="phone3">Phone number</label>
+				<input name="phone3" id="phone1" type="text">
+			</div>
+			<button class="js-ffa-add-trigger">Add</button>
+			<button class="js-ffa-remove-trigger">Remove</button>
+		`);
+		return el;
+	};
+
+	function buildStringTemplate() {
+		return `
+			<div class="js-ffa-item">
+				<div class="field">
+					<label for="phone3">Phone number</label>
+					<input name="phone3" id="phone1" type="text">
+				</div>
+				<button class="js-ffa-add-trigger">Add</button>
+				<button class="js-ffa-remove-trigger">Remove</button>
+			</div>
+		`;
+	}
 
 	initExamples();
 
