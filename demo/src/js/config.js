@@ -14,7 +14,7 @@ System.config({
 
   map: {
     "DEGJS/domUtils": "github:DEGJS/domUtils@2.0.0",
-    "DEGJS/formFieldAppender": "github:DEGJS/formFieldAppender@1.0.3",
+    "DEGJS/formFieldAppender": "github:DEGJS/formFieldAppender@1.0.4",
     "DEGJS/numericycle": "github:DEGJS/numericycle@1.0.0",
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",

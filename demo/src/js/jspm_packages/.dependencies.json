@@ -72,5 +72,5 @@
     "DEGJS/objectUtils": "github:DEGJS/objectUtils@^2.0.0"
   },
   "github:DEGJS/objectUtils@2.0.0": {},
-  "github:DEGJS/formFieldAppender@1.0.3": {}
+  "github:DEGJS/formFieldAppender@1.0.4": {}
 }
