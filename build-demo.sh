@@ -11,7 +11,7 @@ cd demo/src
 
 jspm install
 jspm install --link github:DEGJS/$MODULE_NAME
-jspm bundle-sfx demo ../../docs/js/demo.js --skip-source-maps
+jspm bundle-sfx demo ../../docs/js/demo-bundle.js --skip-source-maps
 
 cp *.html ../../docs/
 cp *.css ../../docs/
