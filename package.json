@@ -1,6 +1,6 @@
 {
     "name": "formFieldAppender",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "description": "A module for adding and saving an infinite number of form fields.",
     "keywords": [
     	"form",
