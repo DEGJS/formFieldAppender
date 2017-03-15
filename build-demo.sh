@@ -15,4 +15,3 @@ jspm bundle-sfx demo ../../docs/js/demo.js --skip-source-maps
 
 cp *.html ../../docs/
 cp *.css ../../docs/
-cp -R js/polyfills/ ../../docs/js/polyfills
