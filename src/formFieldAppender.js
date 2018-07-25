@@ -34,6 +34,7 @@ let formFieldAppender = function(wrapperEl, options) {
 			onlyLastItemIsRemovable: false,
 			onItemAddCallback: null,
 			onItemRemoveCallback: null,
+			shouldRemoveItemCallback: null,
 			resetNewItemFormVals: true
 		};
 
@@ -131,7 +132,14 @@ let formFieldAppender = function(wrapperEl, options) {
 		} else if (clickedEl.closest(settings.removeTriggerSelector) !== null) {
 			e.preventDefault();
 			let itemEl = clickedEl.closest('.' + settings.itemClass);
-			removeItem(itemEl);
+			if (settings.shouldRemoveItemCallback) {
+				if (settings.shouldRemoveItemCallback(itemEl)) {
+					removeItem(itemEl);
+				}
+			} else {
+				removeItem(itemEl);
+			}
+			
 		}
 	};
 
