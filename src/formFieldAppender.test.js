@@ -28,16 +28,9 @@ describe('formFieldAppender', () => {
     });
 
     it('should remove item', () => {
-        const shouldRemoveMock = jest.fn();
-        shouldRemoveMock.mockReturnValue(true);
-
-        formFieldAppender(wrapperEl, {
-            shouldRemoveItemCallback: shouldRemoveMock
-        });
-
+        formFieldAppender(wrapperEl);
         removeBtn.click();
-        expect(shouldRemoveMock.mock.calls.length).toBe(1);
-        expect(shouldRemoveMock.mock.results[0].value).toBe(true);
+
         expect(document.querySelector(`.${classes.item}`)).toEqual(null);
     })
 
