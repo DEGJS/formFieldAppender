@@ -1,5 +1,5 @@
 {
-    "name": "@degjs/formFieldAppender",
+    "name": "@degjs/form-field-appender",
     "version": "1.1.0",
     "description": "A module for adding and saving an infinite number of form fields.",
     "keywords": [
