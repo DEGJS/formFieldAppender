@@ -1,5 +1,4 @@
-import formFieldAppender from "DEGJS/formFieldAppender";
-import prism from "prism";
+import formFieldAppender from "../../../src/formFieldAppender";
 
 let demo = function() {
 

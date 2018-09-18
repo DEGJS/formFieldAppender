@@ -4,12 +4,12 @@
 formFieldAppender is a Javascript module that allows you to add and remove an infinite number of similar form fields to a form.
 
 ## Install
-formFieldAppender is an ES6 module. Consequently, you'll need an ES6 transpiler ([Babel](https://babeljs.io) is a nice one) and a module loader ([SystemJS](https://github.com/systemjs/systemjs) will do the job) as part of your Javascript workflow.
+formFieldAppender is an ES6 module. Consequently, you'll need an ES6 transpiler ([Babel](https://babeljs.io) is a nice one) as part of your Javascript workflow.
 
-If you're already using the [JSPM package manager](http://jspm.io) for your project, you can install formFieldAppender with the following command:
+If you're already using NPM for your project, you can install formFieldAppender with the following command:
 
 ```
-$ jspm install github:DEGJS/formFieldAppender
+$ npm install @degjs/form-field-appender
 ```
 
 ## Usage
