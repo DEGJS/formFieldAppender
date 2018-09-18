@@ -15,7 +15,7 @@ $ npm install @degjs/form-field-appender
 ## Usage
 Import formFieldAppender and create a new instance of it.
 ```js
-import formFieldAppender from 'DEGJS/formFieldAppender';
+import formFieldAppender from '@degjs/form-field-appender';
 
 let element = document.querySelector('div');
 
