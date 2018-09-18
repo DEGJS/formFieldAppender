@@ -1,4 +1,4 @@
-jest.mock('DEGJS/domUtils');
+jest.mock('@degjs/dom-utils');
 import polyfillsForTests from './__mocks__/pollyfills';
 import formFieldAppender from './formFieldAppender';
 

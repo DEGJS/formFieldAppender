@@ -1,4 +1,4 @@
-import { emptyElements, isElement } from "DEGJS/domUtils";
+import { emptyElements, isElement } from "@degjs/dom-utils";
 
 let formFieldAppender = function(wrapperEl, options) {
 

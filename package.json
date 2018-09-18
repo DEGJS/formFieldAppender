@@ -1,6 +1,6 @@
 {
     "name": "@degjs/form-field-appender",
-    "version": "1.1.0",
+    "version": "2.0.0",
     "description": "A module for adding and saving an infinite number of form fields.",
     "keywords": [
         "form",
@@ -17,6 +17,10 @@
         "type": "git",
         "url": "https://github.com/DEGJS/formFieldAppender.git"
     },
+    "files": [
+        "src"
+    ],
+    "main": "src/formFieldAppender.js",
     "bugs": "https://github.com/DEGJS/formFieldAppender/issues",
     "devDependencies": {
         "babel-core": "^6.26.3",
@@ -24,20 +28,12 @@
         "es6-module-loader": "^0.17.11",
         "grunt": "^0.4.5",
         "grunt-contrib-copy": "~0.5.0",
-        "jest": "^23.4.1",
-        "systemjs": "^0.19.22"
+        "jest": "^23.4.1"
     },
     "scripts": {
-        "build-demo": "./build-demo.sh",
+        "build-demo": "cd demo/src && npm install && rollup --config ../rollup.config.js",
+        "deploy-demo": "./deploy-demo.sh",
         "test": "jest"
-    },
-    "jspm": {
-        "registry": "jspm",
-        "format": "es6",
-        "main": "formFieldAppender.js",
-        "directories": {
-            "lib": "src"
-        }
     },
     "jest": {
         "testPathIgnorePatterns": [
@@ -50,6 +46,9 @@
         ]
     },
     "publishConfig": {
-		"access": "public"
-	}
+        "access": "public"
+    },
+    "dependencies": {
+        "@degjs/dom-utils": "^3.0.0"
+    }
 }

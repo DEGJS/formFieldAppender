@@ -5,7 +5,7 @@ cache:
   directories:
   - node_modules
 deploy:
-  provider: npm
+  - provider: npm
   email: scheul93@gmail.com
   api_key:
     secure: LYXAk2OSBMDk+T7uaWFdGEFOxwYsGVyy0HQwt34KUsW9h1fmO1zZRXpCy0/MY47OsX+G5Xex6WpTnJKIbMwBotHQ7QioNztJf9Ch2DTJd/CMT1EgOq55+BOLUj5gXOyinGY8T3yK/vSnuJteQOU7QAzoyf+/l5S+yvNU7M5JEczGRUrBRrBaeQYn+8fMdjiwimWFqWgdk9r5ivub7OHxyZEo+opQBCDDzUnY1qywTfyB6cNdq2I0NNSWZ+w7LvyqTP7hanyQ7rx4MGr8d8jwGODQvapYnQaiR76SvXQRedBmPbu+56aEF4CH5fUlz5GsP1n1HLx5cZqnBu8fpMmQpgQmVU0+6UPT/c8okaOOqPOvkieVjIaFUj4xM4q00x5UyD5vGToHBqnfLfOBt5pzPbtaDlY1jxtuYKslZmhMpLFDAud/UXQaKcuZXvjxtgcZZtSaOAjNKmMIVf39XPIQ3eXuoUNSbQ6jWCkTDjUT6mE+Yu2uxOIXQuXYvmjm6DTQrdZubtaE6jCvS4uZ3f8u/yhRNVBmopuPhPuJPUaXYsQdYIMHqJ03kUtE2suP6WrOe0aLDhKYShZxKAph3TlXdLbBAbZtQj7E+8Kyn9VH7BsFK+H9tzo+VBAjn/fmBfvucnGO/TMqXW2ixqfRsB4uZHclBboTRXBg/7/PupUvn60=
@@ -13,3 +13,6 @@ deploy:
     branch: master
     tags: true
     repo: DEGJS/formFieldAppender
+  - provider: script
+    script: bash deploy-demo.sh
+
