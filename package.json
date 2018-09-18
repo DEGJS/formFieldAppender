@@ -31,7 +31,8 @@
         "jest": "^23.4.1"
     },
     "scripts": {
-        "build-demo": "./build-demo.sh",
+        "build-demo": "cd demo/src && npm install && rollup --config ../rollup.config.js",
+        "deploy-demo": "./deploy-demo.sh",
         "test": "jest"
     },
     "jest": {
