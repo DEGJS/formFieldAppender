@@ -14,5 +14,5 @@ deploy:
     tags: true
     repo: DEGJS/formFieldAppender
   - provider: script
-    script: bash build-demo.sh
+    script: bash deploy-demo.sh
 
