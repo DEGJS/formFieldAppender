@@ -8,6 +8,8 @@ env:
   global:
   - ENCRYPTION_LABEL: add1b117c654
   - COMMIT_AUTHOR_EMAIL: scheul93@gmail.com
+before_install:
+- npm install -g rollup
 deploy:
   - provider: npm
     email: scheul93@gmail.com
