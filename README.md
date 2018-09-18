@@ -28,7 +28,7 @@ However, you can optionally provide either an HTML element or string representat
 
 #### As an HTML element:
 ```js
-import formFieldAppender from 'DEGJS/formFieldAppender';
+import formFieldAppender from '@degjs/form-field-appender';
 
 let element = document.querySelector('div');
 let itemBlueprint = document.createElement('div');
@@ -46,7 +46,7 @@ let instance = formFieldAppender(element, {
 
 #### As a string representation of an HTML element:
 ```js
-import formFieldAppender from 'DEGJS/formFieldAppender';
+import formFieldAppender from '@degjs/form-field-appender';
 
 let element = document.querySelector('div');
 let itemBlueprint = `
