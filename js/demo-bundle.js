@@ -1,310 +1,340 @@
 this['demo-bundle'] = this['demo-bundle'] || {};
-this['demo-bundle'].js = (function (domUtils) {
-	'use strict';
+this['demo-bundle'].js = (function () {
+  'use strict';
 
-	let formFieldAppender = function (wrapperEl, options) {
-	  const errors = {
-	    prefix: 'formFieldAppender: ',
-	    noWrapperEl: 'No wrapper element found.',
-	    noItemElsFoundInMarkup: 'No item elements found in markup.',
-	    noItemElsFoundInBlueprint: 'No item elements found in item blueprint.'
-	  },
-	        defaultPatterns = {
-	    id: 'ffa-id-[[index]]',
-	    name: 'ffa-name-[[index]]',
-	    for: 'ffa-name-[[index]]'
-	  };
-	  let settings,
-	      itemEls,
-	      itemElClone,
-	      defaults = {
-	    blueprint: null,
-	    itemClass: 'js-ffa-item',
-	    addTriggerSelector: '.js-ffa-add-trigger',
-	    removeTriggerSelector: '.js-ffa-remove-trigger',
-	    idPatternAttr: 'data-ffa-id-pattern',
-	    namePatternAttr: 'data-ffa-name-pattern',
-	    forPatternAttr: 'data-ffa-for-pattern',
-	    disabledClass: 'is-disabled',
-	    initialReindex: 1,
-	    firstItemIsRemovable: true,
-	    onlyLastItemIsRemovable: false,
-	    onItemAddCallback: null,
-	    onItemRemoveCallback: null,
-	    shouldRemoveItemCallback: null,
-	    resetNewItemFormVals: true
-	  };
+  /*!
+   * isobject <https://github.com/jonschlinkert/isobject>
+   *
+   * Copyright (c) 2014-2017, Jon Schlinkert.
+   * Released under the MIT License.
+   */
 
-	  function init() {
-	    settings = Object.assign({}, defaults, options);
+  function ensureArray(obj) {
+    if (Array.isArray(obj) === false) {
+      return [obj];
+    }
 
-	    if (wrapperEl) {
-	      if (settings.blueprint !== null) {
-	        buildItemElsFromBlueprint();
-	      }
+    return obj;
+  }
 
-	      itemEls = Array.from(wrapperEl.querySelectorAll('.' + settings.itemClass));
+  function isElement(o) {
+    return typeof HTMLElement === 'object' ? o instanceof HTMLElement : o && typeof o === 'object' && o !== null && o.nodeType === 1 && typeof o.nodeName === 'string';
+  }
 
-	      if (itemEls.length > 0) {
-	        itemElClone = resetNewItemFormVals(itemEls[0].cloneNode(true));
-	        disableFirstItemRemoveTrigger();
-	        setTriggerDisabledState(itemElClone.querySelector(settings.addTriggerSelector), false);
-	        reindexItems();
-	        bindEvents();
-	      } else {
-	        let err = settings.blueprint !== null ? errors.noItemElsFoundInBlueprint : errors.noItemElsFoundInMarkup;
-	        logError(err);
-	      }
-	    } else {
-	      logError(errors.noWrapperEl);
-	    }
-	  }
+  function emptyElement(el) {
+    while (el.firstChild) {
+      el.removeChild(el.firstChild);
+    }
+  }
 
-	  function buildItemElsFromBlueprint() {
-	    domUtils.emptyElements(wrapperEl);
+  function emptyElements(els) {
+    els = ensureArray(els);
+    els.forEach(el => emptyElement(el));
+  }
 
-	    if (domUtils.isElement(settings.blueprint)) {
-	      wrapperEl.appendChild(settings.blueprint);
-	    } else {
-	      wrapperEl.insertAdjacentHTML('afterbegin', settings.blueprint);
-	    }
+  let formFieldAppender = function (wrapperEl, options) {
+    const errors = {
+      prefix: 'formFieldAppender: ',
+      noWrapperEl: 'No wrapper element found.',
+      noItemElsFoundInMarkup: 'No item elements found in markup.',
+      noItemElsFoundInBlueprint: 'No item elements found in item blueprint.'
+    },
+          defaultPatterns = {
+      id: 'ffa-id-[[index]]',
+      name: 'ffa-name-[[index]]',
+      for: 'ffa-name-[[index]]'
+    };
+    let settings,
+        itemEls,
+        itemElClone,
+        defaults = {
+      blueprint: null,
+      itemClass: 'js-ffa-item',
+      addTriggerSelector: '.js-ffa-add-trigger',
+      removeTriggerSelector: '.js-ffa-remove-trigger',
+      idPatternAttr: 'data-ffa-id-pattern',
+      namePatternAttr: 'data-ffa-name-pattern',
+      forPatternAttr: 'data-ffa-for-pattern',
+      disabledClass: 'is-disabled',
+      initialReindex: 1,
+      firstItemIsRemovable: true,
+      onlyLastItemIsRemovable: false,
+      onItemAddCallback: null,
+      onItemRemoveCallback: null,
+      shouldRemoveItemCallback: null,
+      resetNewItemFormVals: true
+    };
 
-	    wrapperEl.children[0].classList.add(settings.itemClass);
-	  }
+    function init() {
+      settings = Object.assign({}, defaults, options);
 
-	  function reindexItems() {
-	    let attrs = Object.keys(defaultPatterns);
+      if (wrapperEl) {
+        if (settings.blueprint !== null) {
+          buildItemElsFromBlueprint();
+        }
 
-	    for (var itemIndex = settings.initialReindex; itemIndex <= itemEls.length; itemIndex++) {
-	      let itemEl = itemEls[itemIndex];
+        itemEls = Array.from(wrapperEl.querySelectorAll('.' + settings.itemClass));
 
-	      if (itemEl) {
-	        let matchingEls = Array.from(itemEl.querySelectorAll('[' + attrs.join('], [') + ']')).filter(function (el) {
-	          return el.nodeName !== 'LABEL';
-	        });
-	        matchingEls.forEach(function (el, elIndex) {
-	          let matchingElArr = [el];
+        if (itemEls.length > 0) {
+          itemElClone = resetNewItemFormVals(itemEls[0].cloneNode(true));
+          disableFirstItemRemoveTrigger();
+          setTriggerDisabledState(itemElClone.querySelector(settings.addTriggerSelector), false);
+          reindexItems();
+          bindEvents();
+        } else {
+          let err = settings.blueprint !== null ? errors.noItemElsFoundInBlueprint : errors.noItemElsFoundInMarkup;
+          logError(err);
+        }
+      } else {
+        logError(errors.noWrapperEl);
+      }
+    }
 
-	          if (el.nodeName === 'INPUT') {
-	            let correspondingLabelEl = itemEl.querySelector('label[for="' + el.getAttribute('name') + '"]');
+    function buildItemElsFromBlueprint() {
+      emptyElements(wrapperEl);
 
-	            if (correspondingLabelEl) {
-	              matchingElArr.push(correspondingLabelEl);
-	            }
-	          }
-	          matchingElArr.forEach(function (matchingElItem) {
-	            setElAttributes(matchingElItem, itemIndex, elIndex, attrs);
-	          });
-	        });
-	      }
-	    }
-	  }
+      if (isElement(settings.blueprint)) {
+        wrapperEl.appendChild(settings.blueprint);
+      } else {
+        wrapperEl.insertAdjacentHTML('afterbegin', settings.blueprint);
+      }
 
-	  function setElAttributes(el, itemIndex, elIndex, attrs) {
-	    attrs.forEach(function (attr) {
-	      if (el.hasAttribute(attr)) {
-	        let itemAttrVal = el.getAttribute(settings[attr + 'PatternAttr']);
+      wrapperEl.children[0].classList.add(settings.itemClass);
+    }
 
-	        if (!itemAttrVal) {
-	          itemAttrVal = defaultPatterns[attr];
-	        }
+    function reindexItems() {
+      let attrs = Object.keys(defaultPatterns);
 
-	        itemAttrVal = itemAttrVal.replace('[[index]]', itemIndex + '-' + elIndex);
-	        itemAttrVal = itemAttrVal.replace('[[itemIndex]]', itemIndex);
-	        itemAttrVal = itemAttrVal.replace('[[itemElIndex]]', elIndex);
-	        el.setAttribute(attr, itemAttrVal);
-	      }
-	    });
-	  }
+      for (var itemIndex = settings.initialReindex; itemIndex <= itemEls.length; itemIndex++) {
+        let itemEl = itemEls[itemIndex];
 
-	  function disableFirstItemRemoveTrigger() {
-	    if (!settings.firstItemIsRemovable) {
-	      let triggerEl = itemEls[0].querySelector(settings.removeTriggerSelector);
+        if (itemEl) {
+          let matchingEls = Array.from(itemEl.querySelectorAll('[' + attrs.join('], [') + ']')).filter(function (el) {
+            return el.nodeName !== 'LABEL';
+          });
+          matchingEls.forEach(function (el, elIndex) {
+            let matchingElArr = [el];
 
-	      if (triggerEl) {
-	        triggerEl.parentNode.removeChild(triggerEl);
-	      }
-	    }
-	  }
+            if (el.nodeName === 'INPUT') {
+              let correspondingLabelEl = itemEl.querySelector('label[for="' + el.getAttribute('name') + '"]');
 
-	  function bindEvents() {
-	    wrapperEl.addEventListener('click', onElementClick);
-	  }
+              if (correspondingLabelEl) {
+                matchingElArr.push(correspondingLabelEl);
+              }
+            }
+            matchingElArr.forEach(function (matchingElItem) {
+              setElAttributes(matchingElItem, itemIndex, elIndex, attrs);
+            });
+          });
+        }
+      }
+    }
 
-	  function onElementClick(e) {
-	    let clickedEl = e.target;
+    function setElAttributes(el, itemIndex, elIndex, attrs) {
+      attrs.forEach(function (attr) {
+        if (el.hasAttribute(attr)) {
+          let itemAttrVal = el.getAttribute(settings[attr + 'PatternAttr']);
 
-	    if (clickedEl.closest(settings.addTriggerSelector) !== null) {
-	      e.preventDefault();
-	      addItem(clickedEl);
-	    } else if (clickedEl.closest(settings.removeTriggerSelector) !== null) {
-	      e.preventDefault();
-	      let itemEl = clickedEl.closest('.' + settings.itemClass);
+          if (!itemAttrVal) {
+            itemAttrVal = defaultPatterns[attr];
+          }
 
-	      if (settings.shouldRemoveItemCallback) {
-	        if (settings.shouldRemoveItemCallback(itemEl)) {
-	          removeItem(itemEl);
-	        }
-	      } else {
-	        removeItem(itemEl);
-	      }
-	    }
-	  }
+          itemAttrVal = itemAttrVal.replace('[[index]]', itemIndex + '-' + elIndex);
+          itemAttrVal = itemAttrVal.replace('[[itemIndex]]', itemIndex);
+          itemAttrVal = itemAttrVal.replace('[[itemElIndex]]', elIndex);
+          el.setAttribute(attr, itemAttrVal);
+        }
+      });
+    }
 
-	  function addItem(addTriggerEl) {
-	    let triggerEls = [addTriggerEl],
-	        newItem = itemElClone.cloneNode(true);
+    function disableFirstItemRemoveTrigger() {
+      if (!settings.firstItemIsRemovable) {
+        let triggerEl = itemEls[0].querySelector(settings.removeTriggerSelector);
 
-	    if (settings.onlyLastItemIsRemovable === true) {
-	      let siblingRemoveTriggerEl = getSiblingTrigger(addTriggerEl, settings.removeTriggerSelector);
+        if (triggerEl) {
+          triggerEl.parentNode.removeChild(triggerEl);
+        }
+      }
+    }
 
-	      if (siblingRemoveTriggerEl !== null) {
-	        triggerEls.push(siblingRemoveTriggerEl);
-	      }
-	    }
+    function bindEvents() {
+      wrapperEl.addEventListener('click', onElementClick);
+    }
 
-	    triggerEls.forEach(function (triggerEl) {
-	      setTriggerDisabledState(triggerEl);
-	    });
-	    wrapperEl.appendChild(newItem);
-	    itemEls.push(newItem);
-	    reindexItems();
+    function onElementClick(e) {
+      let clickedEl = e.target;
 
-	    if (settings.onItemAddCallback !== null) {
-	      settings.onItemAddCallback(newItem, itemEls);
-	    }
-	  }
+      if (clickedEl.closest(settings.addTriggerSelector) !== null) {
+        e.preventDefault();
+        addItem(clickedEl);
+      } else if (clickedEl.closest(settings.removeTriggerSelector) !== null) {
+        e.preventDefault();
+        let itemEl = clickedEl.closest('.' + settings.itemClass);
 
-	  function removeItem(itemEl) {
-	    let removeItemIndex = itemEls.indexOf(itemEl);
-	    itemEls.splice(removeItemIndex, 1);
-	    wrapperEl.removeChild(itemEl);
+        if (settings.shouldRemoveItemCallback) {
+          if (settings.shouldRemoveItemCallback(itemEl)) {
+            removeItem(itemEl);
+          }
+        } else {
+          removeItem(itemEl);
+        }
+      }
+    }
 
-	    if (itemEls.length > 0) {
-	      let lastItemEl = itemEls[itemEls.length - 1],
-	          lastItemAddTriggerEl = lastItemEl.querySelector(settings.addTriggerSelector);
-	      setTriggerDisabledState(lastItemAddTriggerEl, false);
-	    }
+    function addItem(addTriggerEl) {
+      let triggerEls = [addTriggerEl],
+          newItem = itemElClone.cloneNode(true);
 
-	    reindexItems();
+      if (settings.onlyLastItemIsRemovable === true) {
+        let siblingRemoveTriggerEl = getSiblingTrigger(addTriggerEl, settings.removeTriggerSelector);
 
-	    if (settings.onItemRemoveCallback !== null) {
-	      settings.onItemRemoveCallback(itemEl, itemEls);
-	    }
-	  }
+        if (siblingRemoveTriggerEl !== null) {
+          triggerEls.push(siblingRemoveTriggerEl);
+        }
+      }
 
-	  function setTriggerDisabledState(triggerEl, isDisabled = true) {
-	    let ariaAttr = 'aria-disabled',
-	        classListMethodName = isDisabled === true ? 'add' : 'remove';
+      triggerEls.forEach(function (triggerEl) {
+        setTriggerDisabledState(triggerEl);
+      });
+      wrapperEl.appendChild(newItem);
+      itemEls.push(newItem);
+      reindexItems();
 
-	    if (triggerEl) {
-	      triggerEl.classList[classListMethodName](settings.disabledClass);
-	      triggerEl.setAttribute(ariaAttr, isDisabled);
-	      triggerEl.disabled = isDisabled;
-	    }
-	  }
+      if (settings.onItemAddCallback !== null) {
+        settings.onItemAddCallback(newItem, itemEls);
+      }
+    }
 
-	  function resetNewItemFormVals(item) {
-	    if (settings.resetNewItemFormVals === true) {
-	      let allInputEls = Array.from(item.querySelectorAll('input', 'textarea', 'select'));
-	      allInputEls.forEach(function (input) {
-	        switch (input.nodeName) {
-	          case 'TEXTAREA':
-	            input.innerHTML = '';
-	            break;
+    function removeItem(itemEl) {
+      let removeItemIndex = itemEls.indexOf(itemEl);
+      itemEls.splice(removeItemIndex, 1);
+      wrapperEl.removeChild(itemEl);
 
-	          default:
-	            input.value = '';
-	            input.checked = false;
-	            break;
-	        }
-	      });
-	    }
+      if (itemEls.length > 0) {
+        let lastItemEl = itemEls[itemEls.length - 1],
+            lastItemAddTriggerEl = lastItemEl.querySelector(settings.addTriggerSelector);
+        setTriggerDisabledState(lastItemAddTriggerEl, false);
+      }
 
-	    return item;
-	  }
+      reindexItems();
 
-	  function getSiblingTrigger(triggerEl, siblingSelector) {
-	    return triggerEl.closest('.' + settings.itemClass).querySelector(siblingSelector);
-	  }
+      if (settings.onItemRemoveCallback !== null) {
+        settings.onItemRemoveCallback(itemEl, itemEls);
+      }
+    }
 
-	  function getItems() {
-	    return itemEls;
-	  }
+    function setTriggerDisabledState(triggerEl, isDisabled = true) {
+      let ariaAttr = 'aria-disabled',
+          classListMethodName = isDisabled === true ? 'add' : 'remove';
 
-	  function logError(msg, logLevel = 'warn') {
-	    console[logLevel](errors.prefix + msg);
-	  }
+      if (triggerEl) {
+        triggerEl.classList[classListMethodName](settings.disabledClass);
+        triggerEl.setAttribute(ariaAttr, isDisabled);
+        triggerEl.disabled = isDisabled;
+      }
+    }
 
-	  function destroy() {
-	    wrapperEl.removeEventListener('click', onElementClick);
-	  }
-	  init();
-	  return {
-	    destroy: destroy,
-	    getItems: getItems
-	  };
-	};
+    function resetNewItemFormVals(item) {
+      if (settings.resetNewItemFormVals === true) {
+        let allInputEls = Array.from(item.querySelectorAll('input', 'textarea', 'select'));
+        allInputEls.forEach(function (input) {
+          switch (input.nodeName) {
+            case 'TEXTAREA':
+              input.innerHTML = '';
+              break;
 
-	var demo = function demo() {
-	  var examples = [{
-	    elementSelector: '.js-example-1'
-	  }, {
-	    elementSelector: '.js-example-2',
-	    options: {
-	      firstItemIsRemovable: false,
-	      onlyLastItemIsRemovable: true,
-	      onItemAddCallback: addCallback,
-	      onItemRemoveCallback: removeCallback
-	    }
-	  }, {
-	    elementSelector: '.js-example-3',
-	    options: {
-	      blueprint: buildElementBlueprint()
-	    }
-	  }, {
-	    elementSelector: '.js-example-4',
-	    options: {
-	      blueprint: buildStringTemplate()
-	    }
-	  }];
+            default:
+              input.value = '';
+              input.checked = false;
+              break;
+          }
+        });
+      }
 
-	  function initExamples() {
-	    examples.forEach(function (example, index) {
-	      var element = document.querySelector(example.elementSelector),
-	          options = example.options ? example.options : {};
-	      formFieldAppender(element, options);
-	    });
-	  }
+      return item;
+    }
 
-	  function addCallback(addedItem, allItems) {
-	    alert('Item added!');
-	    console.log(addedItem);
-	    console.log(allItems);
-	  }
+    function getSiblingTrigger(triggerEl, siblingSelector) {
+      return triggerEl.closest('.' + settings.itemClass).querySelector(siblingSelector);
+    }
 
-	  function removeCallback(removedItem, allItems) {
-	    alert('Item removed!');
-	    console.log(removedItem);
-	    console.log(allItems);
-	  }
+    function getItems() {
+      return itemEls;
+    }
 
-	  function buildElementBlueprint() {
-	    var el = document.createElement('div');
-	    el.classList.add('js-ffa-item');
-	    el.insertAdjacentHTML('afterbegin', "\n\t\t\t<div class=\"field\">\n\t\t\t\t<label for=\"phone3\">Phone number</label>\n\t\t\t\t<input name=\"phone3\" id=\"phone1\" type=\"text\">\n\t\t\t</div>\n\t\t\t<button class=\"js-ffa-add-trigger\">Add</button>\n\t\t\t<button class=\"js-ffa-remove-trigger\">Remove</button>\n\t\t");
-	    return el;
-	  }
+    function logError(msg, logLevel = 'warn') {
+      console[logLevel](errors.prefix + msg);
+    }
 
-	  function buildStringTemplate() {
-	    return "\n\t\t\t<div class=\"js-ffa-item\">\n\t\t\t\t<div class=\"field\">\n\t\t\t\t\t<label for=\"phone3\">Phone number</label>\n\t\t\t\t\t<input name=\"phone3\" id=\"phone1\" type=\"text\">\n\t\t\t\t</div>\n\t\t\t\t<button class=\"js-ffa-add-trigger\">Add</button>\n\t\t\t\t<button class=\"js-ffa-remove-trigger\">Remove</button>\n\t\t\t</div>\n\t\t";
-	  }
+    function destroy() {
+      wrapperEl.removeEventListener('click', onElementClick);
+    }
+    init();
+    return {
+      destroy: destroy,
+      getItems: getItems
+    };
+  };
 
-	  initExamples();
-	};
+  var demo = function demo() {
+    var examples = [{
+      elementSelector: '.js-example-1'
+    }, {
+      elementSelector: '.js-example-2',
+      options: {
+        firstItemIsRemovable: false,
+        onlyLastItemIsRemovable: true,
+        onItemAddCallback: addCallback,
+        onItemRemoveCallback: removeCallback
+      }
+    }, {
+      elementSelector: '.js-example-3',
+      options: {
+        blueprint: buildElementBlueprint()
+      }
+    }, {
+      elementSelector: '.js-example-4',
+      options: {
+        blueprint: buildStringTemplate()
+      }
+    }];
 
-	var demo$1 = demo();
+    function initExamples() {
+      examples.forEach(function (example, index) {
+        var element = document.querySelector(example.elementSelector),
+            options = example.options ? example.options : {};
+        formFieldAppender(element, options);
+      });
+    }
 
-	return demo$1;
+    function addCallback(addedItem, allItems) {
+      alert('Item added!');
+      console.log(addedItem);
+      console.log(allItems);
+    }
 
-}(domUtils));
+    function removeCallback(removedItem, allItems) {
+      alert('Item removed!');
+      console.log(removedItem);
+      console.log(allItems);
+    }
+
+    function buildElementBlueprint() {
+      var el = document.createElement('div');
+      el.classList.add('js-ffa-item');
+      el.insertAdjacentHTML('afterbegin', "\n\t\t\t<div class=\"field\">\n\t\t\t\t<label for=\"phone3\">Phone number</label>\n\t\t\t\t<input name=\"phone3\" id=\"phone1\" type=\"text\">\n\t\t\t</div>\n\t\t\t<button class=\"js-ffa-add-trigger\">Add</button>\n\t\t\t<button class=\"js-ffa-remove-trigger\">Remove</button>\n\t\t");
+      return el;
+    }
+
+    function buildStringTemplate() {
+      return "\n\t\t\t<div class=\"js-ffa-item\">\n\t\t\t\t<div class=\"field\">\n\t\t\t\t\t<label for=\"phone3\">Phone number</label>\n\t\t\t\t\t<input name=\"phone3\" id=\"phone1\" type=\"text\">\n\t\t\t\t</div>\n\t\t\t\t<button class=\"js-ffa-add-trigger\">Add</button>\n\t\t\t\t<button class=\"js-ffa-remove-trigger\">Remove</button>\n\t\t\t</div>\n\t\t";
+    }
+
+    initExamples();
+  };
+
+  var demo$1 = demo();
+
+  return demo$1;
+
+}());
