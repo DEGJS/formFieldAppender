@@ -32,19 +32,19 @@ this['demo-bundle'].js = (function () {
     els.forEach(el => emptyElement(el));
   }
 
-  let formFieldAppender = function (wrapperEl, options) {
-    const errors = {
+  var formFieldAppender = function formFieldAppender(wrapperEl, options) {
+    var errors = {
       prefix: 'formFieldAppender: ',
       noWrapperEl: 'No wrapper element found.',
       noItemElsFoundInMarkup: 'No item elements found in markup.',
       noItemElsFoundInBlueprint: 'No item elements found in item blueprint.'
     },
-          defaultPatterns = {
+        defaultPatterns = {
       id: 'ffa-id-[[index]]',
       name: 'ffa-name-[[index]]',
       for: 'ffa-name-[[index]]'
     };
-    let settings,
+    var settings,
         itemEls,
         itemElClone,
         defaults = {
@@ -82,7 +82,7 @@ this['demo-bundle'].js = (function () {
           reindexItems();
           bindEvents();
         } else {
-          let err = settings.blueprint !== null ? errors.noItemElsFoundInBlueprint : errors.noItemElsFoundInMarkup;
+          var err = settings.blueprint !== null ? errors.noItemElsFoundInBlueprint : errors.noItemElsFoundInMarkup;
           logError(err);
         }
       } else {
@@ -103,20 +103,20 @@ this['demo-bundle'].js = (function () {
     }
 
     function reindexItems() {
-      let attrs = Object.keys(defaultPatterns);
+      var attrs = Object.keys(defaultPatterns);
 
-      for (var itemIndex = settings.initialReindex; itemIndex <= itemEls.length; itemIndex++) {
-        let itemEl = itemEls[itemIndex];
+      var _loop = function _loop() {
+        var itemEl = itemEls[itemIndex];
 
         if (itemEl) {
-          let matchingEls = Array.from(itemEl.querySelectorAll('[' + attrs.join('], [') + ']')).filter(function (el) {
+          var matchingEls = Array.from(itemEl.querySelectorAll('[' + attrs.join('], [') + ']')).filter(function (el) {
             return el.nodeName !== 'LABEL';
           });
           matchingEls.forEach(function (el, elIndex) {
-            let matchingElArr = [el];
+            var matchingElArr = [el];
 
             if (el.nodeName === 'INPUT') {
-              let correspondingLabelEl = itemEl.querySelector('label[for="' + el.getAttribute('name') + '"]');
+              var correspondingLabelEl = itemEl.querySelector('label[for="' + el.getAttribute('name') + '"]');
 
               if (correspondingLabelEl) {
                 matchingElArr.push(correspondingLabelEl);
@@ -127,13 +127,17 @@ this['demo-bundle'].js = (function () {
             });
           });
         }
+      };
+
+      for (var itemIndex = settings.initialReindex; itemIndex <= itemEls.length; itemIndex++) {
+        _loop();
       }
     }
 
     function setElAttributes(el, itemIndex, elIndex, attrs) {
       attrs.forEach(function (attr) {
         if (el.hasAttribute(attr)) {
-          let itemAttrVal = el.getAttribute(settings[attr + 'PatternAttr']);
+          var itemAttrVal = el.getAttribute(settings[attr + 'PatternAttr']);
 
           if (!itemAttrVal) {
             itemAttrVal = defaultPatterns[attr];
@@ -149,7 +153,7 @@ this['demo-bundle'].js = (function () {
 
     function disableFirstItemRemoveTrigger() {
       if (!settings.firstItemIsRemovable) {
-        let triggerEl = itemEls[0].querySelector(settings.removeTriggerSelector);
+        var triggerEl = itemEls[0].querySelector(settings.removeTriggerSelector);
 
         if (triggerEl) {
           triggerEl.parentNode.removeChild(triggerEl);
@@ -162,14 +166,14 @@ this['demo-bundle'].js = (function () {
     }
 
     function onElementClick(e) {
-      let clickedEl = e.target;
+      var clickedEl = e.target;
 
       if (clickedEl.closest(settings.addTriggerSelector) !== null) {
         e.preventDefault();
         addItem(clickedEl);
       } else if (clickedEl.closest(settings.removeTriggerSelector) !== null) {
         e.preventDefault();
-        let itemEl = clickedEl.closest('.' + settings.itemClass);
+        var itemEl = clickedEl.closest('.' + settings.itemClass);
 
         if (settings.shouldRemoveItemCallback) {
           if (settings.shouldRemoveItemCallback(itemEl)) {
@@ -182,11 +186,11 @@ this['demo-bundle'].js = (function () {
     }
 
     function addItem(addTriggerEl) {
-      let triggerEls = [addTriggerEl],
+      var triggerEls = [addTriggerEl],
           newItem = itemElClone.cloneNode(true);
 
       if (settings.onlyLastItemIsRemovable === true) {
-        let siblingRemoveTriggerEl = getSiblingTrigger(addTriggerEl, settings.removeTriggerSelector);
+        var siblingRemoveTriggerEl = getSiblingTrigger(addTriggerEl, settings.removeTriggerSelector);
 
         if (siblingRemoveTriggerEl !== null) {
           triggerEls.push(siblingRemoveTriggerEl);
@@ -206,12 +210,12 @@ this['demo-bundle'].js = (function () {
     }
 
     function removeItem(itemEl) {
-      let removeItemIndex = itemEls.indexOf(itemEl);
+      var removeItemIndex = itemEls.indexOf(itemEl);
       itemEls.splice(removeItemIndex, 1);
       wrapperEl.removeChild(itemEl);
 
       if (itemEls.length > 0) {
-        let lastItemEl = itemEls[itemEls.length - 1],
+        var lastItemEl = itemEls[itemEls.length - 1],
             lastItemAddTriggerEl = lastItemEl.querySelector(settings.addTriggerSelector);
         setTriggerDisabledState(lastItemAddTriggerEl, false);
       }
@@ -223,8 +227,9 @@ this['demo-bundle'].js = (function () {
       }
     }
 
-    function setTriggerDisabledState(triggerEl, isDisabled = true) {
-      let ariaAttr = 'aria-disabled',
+    function setTriggerDisabledState(triggerEl) {
+      var isDisabled = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      var ariaAttr = 'aria-disabled',
           classListMethodName = isDisabled === true ? 'add' : 'remove';
 
       if (triggerEl) {
@@ -236,7 +241,7 @@ this['demo-bundle'].js = (function () {
 
     function resetNewItemFormVals(item) {
       if (settings.resetNewItemFormVals === true) {
-        let allInputEls = Array.from(item.querySelectorAll('input', 'textarea', 'select'));
+        var allInputEls = Array.from(item.querySelectorAll('input', 'textarea', 'select'));
         allInputEls.forEach(function (input) {
           switch (input.nodeName) {
             case 'TEXTAREA':
@@ -262,7 +267,8 @@ this['demo-bundle'].js = (function () {
       return itemEls;
     }
 
-    function logError(msg, logLevel = 'warn') {
+    function logError(msg) {
+      var logLevel = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'warn';
       console[logLevel](errors.prefix + msg);
     }
 
