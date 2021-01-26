@@ -1,5 +1,5 @@
 # formFieldAppender
-[![Build Status](https://travis-ci.org/DEGJS/formFieldAppender.svg?branch=master)](https://travis-ci.org/DEGJS/formFieldAppender)
+![Run Tests](https://github.com/DEGJS/formFieldAppender/workflows/Run%20Tests/badge.svg)
 
 formFieldAppender is a Javascript module that allows you to add and remove an infinite number of similar form fields to a form.
 
